@@ -1,0 +1,1 @@
+export { DiscountedProductsSection } from "./DiscountedProductsSection";

@@ -1,0 +1,1 @@
+export { ProductMainInfoSection } from "./ProductMainInfoSection";
