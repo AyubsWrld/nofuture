@@ -1,35 +1,27 @@
-import React, { useState } from "react";
+import React from "react";
 import { Button } from "../../../../components/ui/button";
 import { Label } from "../../../../components/ui/label";
 import {
   RadioGroup,
   RadioGroupItem,
 } from "../../../../components/ui/radio-group";
+import { ShippingMethod } from "../../Step";
 
-const shipmentOptions = [
-  {
-    id: "free",
-    label: "Free",
-    description: "Regulary shipment",
-    date: "17 Oct, 2023",
-  },
-  {
-    id: "express",
-    label: "$8.50",
-    description: "Get your delivery as soon as possible",
-    date: "5 Oct, 2023",
-  },
-  {
-    id: "schedule",
-    label: "Schedule",
-    description: "Pick a date when you want to get your delivery",
-    date: "Setup",
-  },
-];
+interface PaymentSectionProps {
+  shippingMethods: ShippingMethod[];
+  selectedShippingId: string;
+  onSelectShipping: (shippingId: string) => void;
+  onNext: () => void;
+  onBack: () => void;
+}
 
-export const PaymentSection = (): JSX.Element => {
-  const [selectedShipment, setSelectedShipment] = useState("free");
-
+export const PaymentSection = ({
+  shippingMethods,
+  selectedShippingId,
+  onSelectShipping,
+  onNext,
+  onBack,
+}: PaymentSectionProps): JSX.Element => {
   return (
     <section className="flex flex-col items-start gap-16 px-40 py-12 w-full">
       <div className="flex flex-col items-start justify-between flex-1 self-stretch w-full grow">
@@ -39,15 +31,15 @@ export const PaymentSection = (): JSX.Element => {
           </h2>
 
           <RadioGroup
-            value={selectedShipment}
-            onValueChange={setSelectedShipment}
+            value={selectedShippingId}
+            onValueChange={onSelectShipping}
             className="flex flex-col items-start gap-4 self-stretch w-full"
           >
-            {shipmentOptions.map((option) => (
+            {shippingMethods.map((option) => (
               <div
                 key={option.id}
                 className="flex items-center justify-between p-6 self-stretch w-full bg-[#1f1f1f] rounded-[11px] border border-solid border-neutral-800 cursor-pointer"
-                onClick={() => setSelectedShipment(option.id)}
+                onClick={() => onSelectShipping(option.id)}
               >
                 <div className="gap-4 flex-1 grow flex items-center">
                   <div className="inline-flex items-center gap-4">
@@ -60,7 +52,7 @@ export const PaymentSection = (): JSX.Element => {
                       htmlFor={option.id}
                       className="w-fit [font-family:'Inter',Helvetica] font-medium text-white text-base tracking-[0.10px] leading-6 whitespace-nowrap cursor-pointer"
                     >
-                      {option.label}
+                      {option.price === 0 ? option.label : `$${option.price.toFixed(2)}`}
                     </Label>
                   </div>
 
@@ -80,6 +72,7 @@ export const PaymentSection = (): JSX.Element => {
         <div className="flex flex-wrap items-start justify-end gap-[23px] self-stretch w-full">
           <Button
             variant="outline"
+            onClick={onBack}
             className="h-auto inline-flex items-center justify-center gap-2 px-[86px] py-6 rounded-md border border-solid border-white bg-transparent hover:bg-white/10"
           >
             <span className="w-fit [font-family:'Inter',Helvetica] font-medium text-white text-base text-center tracking-[0] leading-4 whitespace-nowrap">
@@ -87,7 +80,10 @@ export const PaymentSection = (): JSX.Element => {
             </span>
           </Button>
 
-          <Button className="h-auto px-[86px] py-6 bg-white rounded-md inline-flex items-center justify-center gap-2 hover:bg-white/90">
+          <Button
+            onClick={onNext}
+            className="h-auto px-[86px] py-6 bg-white rounded-md inline-flex items-center justify-center gap-2 hover:bg-white/90"
+          >
             <span className="w-fit [font-family:'Inter',Helvetica] font-medium text-black text-base text-center tracking-[0] leading-4 whitespace-nowrap">
               Next
             </span>

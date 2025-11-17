@@ -31,7 +31,7 @@ export const HeaderSection = (): JSX.Element => {
                 break;
 
             default: 
-                navigate('/');
+                navigate('/checkout');
         }
     }
     const { navigate } = useRouter();
@@ -39,7 +39,7 @@ export const HeaderSection = (): JSX.Element => {
         <header className="flex items-center justify-around gap-8 px-40 py-4 w-full bg-[#0b0b0b]">
         <nav className="inline-flex items-center gap-8 p-3 bg-[#141414] rounded-[20px] border border-solid border-[#2a2a2a]">
             <div className="inline-flex items-center gap-1 px-1 py-0">
-            <img className="w-[55px] h-[34px]" alt="Layer" src="/layer-1.svg" />
+            <img className="w-[63px] h-[42.46px]" alt="Icon" src="/icon.png" />
 
             <div className="flex items-center justify-center w-[97px] font-bold text-xl text-center leading-[30px] [font-family:'Inter_Tight',Helvetica] text-white tracking-[0]">
                 Nofuture
