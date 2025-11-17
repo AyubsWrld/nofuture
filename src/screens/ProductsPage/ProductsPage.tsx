@@ -1,7 +1,7 @@
 import React from "react";
 import { BreadcrumbsSection } from "./sections/BreadcrumbsSection";
-import { FooterSection } from "./sections/FooterSection";
-import { HeaderSection } from "./sections/HeaderSection";
+import { FooterSection } from "../../components/FooterSection.tsx"
+import { HeaderSection } from "../../components/HeaderSection.tsx";
 import { ProductGridSection } from "./sections/ProductGridSection";
 
 export const ProductsPage = (): JSX.Element => {

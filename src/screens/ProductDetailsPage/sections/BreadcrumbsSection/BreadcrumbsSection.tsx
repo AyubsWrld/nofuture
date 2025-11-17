@@ -13,8 +13,6 @@ export const BreadcrumbsSection = (): JSX.Element => {
   const breadcrumbItems = [
     { label: "Home", isActive: false },
     { label: "Catalog", isActive: false },
-    { label: "Clothes", isActive: false },
-    { label: "Clothes", isActive: false },
     { label: "Black KH Sora", isActive: true },
   ];
 

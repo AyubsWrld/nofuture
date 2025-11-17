@@ -2,6 +2,7 @@ import { ChevronLeft, ChevronRight, Heart } from "lucide-react";
 import { Badge } from "../../../../components/ui/badge";
 import { Button } from "../../../../components/ui/button";
 import { Card, CardContent } from "../../../../components/ui/card";
+import { useRouter } from "../../../../lib/router/Router.tsx";
 
 const categories = [
   { icon: "/icon-phones.svg", label: "Clothes" },
@@ -12,40 +13,44 @@ const categories = [
   { icon: "/icon-phones.svg", label: "Category" },
 ];
 
-/* Pull from db*/ 
-
 const products = [
   {
+    id: "1",
     image: "/iphone-14-pro-1-5.png",
     title: "Jeff Hardy Zip Up",
     price: "$95.00",
     tag: "Clothes",
   },
   {
+    id: "2",
     image: "/iphone-14-pro-1-5.png",
     title: "Jeff Hardy Zip Up",
     price: "$95.00",
     tag: "Clothes",
   },
   {
+    id: "3",
     image: "/iphone-14-pro-1-5.png",
     title: "Jeff Hardy Zip Up",
     price: "$95.00",
     tag: "Tags",
   },
   {
+    id: "4",
     image: "/iphone-14-pro-1-5.png",
     title: "Jeff Hardy Zip Up",
     price: "$95.00",
     tag: "Clothes",
   },
   {
+    id: "5",
     image: "/iphone-14-pro-1-5.png",
     title: "Jeff Hardy Zip Up",
     price: "$95.00",
     tag: "Clothes",
   },
   {
+    id: "6",
     image: "/iphone-14-pro-1-5.png",
     title: "Jeff Hardy Zip Up",
     price: "$95.00",
@@ -54,6 +59,13 @@ const products = [
 ];
 
 export const CategoryBrowseSection = (): JSX.Element => {
+  const { navigate } = useRouter();
+
+  const handleProductClick = (product: typeof products[0]) => {
+    // Navigate with product data as state
+    navigate(`/product/${product.id}`, { product });
+  };
+
   return (
     <section className="flex flex-col items-start gap-8 px-8 md:px-20 lg:px-40 py-20 w-full bg-[#0b0b0b]">
       <header className="flex items-center justify-between w-full">
@@ -83,6 +95,7 @@ export const CategoryBrowseSection = (): JSX.Element => {
         {categories.map((category, index) => (
           <Card
             key={`category-${index}`}
+            onClick={() => navigate("/products")}
             className="flex flex-col h-32 items-center justify-center gap-2 bg-[#141414] rounded-[15px] border border-solid border-neutral-800 cursor-pointer hover:bg-neutral-800 transition-colors"
           >
             <CardContent className="flex flex-col items-center justify-center gap-2 p-4">
@@ -104,6 +117,7 @@ export const CategoryBrowseSection = (): JSX.Element => {
           {products.slice(0, 3).map((product, index) => (
             <Card
               key={`product-row1-${index}`}
+              onClick={() => handleProductClick(product)}
               className="flex flex-col items-center gap-4 bg-[#141414] rounded-[9px] border border-solid border-neutral-800 cursor-pointer hover:bg-neutral-800 transition-colors overflow-hidden"
             >
               <CardContent className="flex flex-col items-center gap-4 p-4 w-full">
@@ -112,6 +126,9 @@ export const CategoryBrowseSection = (): JSX.Element => {
                     variant="ghost"
                     size="icon"
                     className="h-8 w-8 p-0 hover:bg-neutral-700"
+                    onClick={(e) => {
+                      e.stopPropagation(); // Prevent card click
+                    }}
                   >
                     <Heart className="w-5 h-5 text-white" />
                   </Button>
@@ -155,6 +172,7 @@ export const CategoryBrowseSection = (): JSX.Element => {
           {products.slice(3, 6).map((product, index) => (
             <Card
               key={`product-row2-${index}`}
+              onClick={() => handleProductClick(product)}
               className="flex flex-col items-center gap-4 bg-[#141414] rounded-[9px] border border-solid border-neutral-800 cursor-pointer hover:bg-neutral-800 transition-colors overflow-hidden"
             >
               <CardContent className="flex flex-col items-center gap-4 p-4 w-full">
@@ -163,6 +181,9 @@ export const CategoryBrowseSection = (): JSX.Element => {
                     variant="ghost"
                     size="icon"
                     className="h-8 w-8 p-0 hover:bg-neutral-700"
+                    onClick={(e) => {
+                      e.stopPropagation(); // Prevent card click
+                    }}
                   >
                     <Heart className="w-5 h-5 text-white" />
                   </Button>
