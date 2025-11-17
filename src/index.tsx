@@ -5,6 +5,7 @@ import { Home } from "./screens/Home";
 import { ProductsPage } from "./screens/ProductsPage";
 import { ProductDetailsPage } from "./screens/ProductDetailsPage";
 import { ShoppingCartScreen } from "./screens/ShoppingCartScreen";
+import { Step } from "./screens/Step";
 
 createRoot(document.getElementById("app") as HTMLElement).render(
   <StrictMode>
@@ -14,6 +15,7 @@ createRoot(document.getElementById("app") as HTMLElement).render(
         <Route path="/products" element={<ProductsPage />} />
         <Route path="/product/:id" element={<ProductDetailsPage />} />
         <Route path="/cart" element={<ShoppingCartScreen />} />
+        <Route path="/checkout" element={<Step />} />
       </Routes>
     </Router>
   </StrictMode>,

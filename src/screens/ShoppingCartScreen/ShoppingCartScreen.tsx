@@ -1,6 +1,6 @@
 import React from "react";
-import { FooterSection } from "./sections/FooterSection";
-import { HeaderSection } from "./sections/HeaderSection";
+import { FooterSection } from "../../components/FooterSection.tsx";
+import { HeaderSection } from "../../components/HeaderSection.tsx";
 import { ShoppingCartSection } from "./sections/ShoppingCartSection";
 
 export const ShoppingCartScreen = (): JSX.Element => {
