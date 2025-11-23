@@ -18,26 +18,27 @@ interface HeaderProps {
 type Viewport = 'desktop' | 'mobile';
 
 export function Header({
-  header,
-  isLoggedIn,
-  cart,
-  publicStoreDomain,
-}: HeaderProps) {
-  const {shop, menu} = header;
-  return (
-    <header className="header">
-      <NavLink prefetch="intent" to="/" style={activeLinkStyle} end>
-        <strong>{shop.name}</strong>
-      </NavLink>
-      <HeaderMenu
-        menu={menu}
-        viewport="desktop"
-        primaryDomainUrl={header.shop.primaryDomain.url}
-        publicStoreDomain={publicStoreDomain}
-      />
-      <HeaderCtas isLoggedIn={isLoggedIn} cart={cart} />
-    </header>
-  );
+    header,
+    isLoggedIn,
+    cart,
+    publicStoreDomain,
+}:  HeaderProps) {
+    const {shop, menu} = header;
+    return (
+        <header className="header">
+        <NavLink prefetch="intent" to="/" style={activeLinkStyle} end>
+            {/* <strong>{shop.name}</strong> */}
+            <strong>{"Nofuture"}</strong>
+        </NavLink>
+        <HeaderMenu
+            menu={menu}
+            viewport="desktop"
+            primaryDomainUrl={header.shop.primaryDomain.url}
+            publicStoreDomain={publicStoreDomain}
+        />
+        <HeaderCtas isLoggedIn={isLoggedIn} cart={cart} />
+        </header>
+    );
 }
 
 export function HeaderMenu({

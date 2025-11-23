@@ -1,5 +1,6 @@
 import {Await, useLoaderData, Link} from 'react-router';
 import type {Route} from './+types/_index';
+import { Banner } from '../components/Banner' ;
 import {Suspense} from 'react';
 import {Image} from '@shopify/hydrogen';
 import type {
@@ -57,13 +58,14 @@ function loadDeferredData({context}: Route.LoaderArgs) {
 }
 
 export default function Homepage() {
-  const data = useLoaderData<typeof loader>();
-  return (
-    <div className="home">
-      <FeaturedCollection collection={data.featuredCollection} />
-      <RecommendedProducts products={data.recommendedProducts} />
-    </div>
-  );
+    const data = useLoaderData<typeof loader>();
+    return (
+            <div className="home">
+            <FeaturedCollection collection={data.featuredCollection} />
+            <RecommendedProducts products={data.recommendedProducts} />
+            <Banner/>
+            </div>
+    );
 }
 
 function FeaturedCollection({
