@@ -5,7 +5,7 @@
   --grid-item-width: 355px;
   --header-height: 64px;
   --color-dark: #000;
-  --color-light: #000;
+  --color-light: #fff;
   --elevation-one: #141414;
   --text-primary: #fff;
   --text-secondary: #909090
@@ -356,10 +356,11 @@ button.reset:hover:not(:has(> *)) {
 }
 
 .featured-collection-image {
-  aspect-ratio: 1 / 1;
-  @media (min-width: 45em) {
-    aspect-ratio: 16 / 9;
-  }
+    background: red;
+    aspect-ratio: 1 / 1;
+    @media (min-width: 45em) {
+        aspect-ratio: 16 / 9;
+    }
 }
 
 .featured-collection img {

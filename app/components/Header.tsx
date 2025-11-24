@@ -1,232 +1,210 @@
-import {Suspense} from 'react';
-import {Await, NavLink, useAsyncValue} from 'react-router';
-import {
-  type CartViewPayload,
-  useAnalytics,
-  useOptimisticCart,
-} from '@shopify/hydrogen';
-import type {HeaderQuery, CartApiQueryFragment} from 'storefrontapi.generated';
-import {useAside} from '~/components/Aside';
-
-interface HeaderProps {
-  header: HeaderQuery;
-  cart: Promise<CartApiQueryFragment | null>;
-  isLoggedIn: Promise<boolean>;
-  publicStoreDomain: string;
+import {useState, useEffect} from 'react';
+import {NavLink} from 'react-router-dom';
+import LogoText from '../../public/textLogo.png';
+import Logo from '../../public/logow.png';
+
+/* -------------------------------------------------------------
+   Drawer stubs — replace with real Aside logic later
+-------------------------------------------------------------- */
+function openMobileMenu() {
+  console.log("Open mobile menu drawer");
+}
+function openSearch() {
+  console.log("Open search drawer");
+}
+function openCart() {
+  console.log("Open cart drawer");
 }
 
-type Viewport = 'desktop' | 'mobile';
-
-export function Header({
-    header,
-    isLoggedIn,
-    cart,
-    publicStoreDomain,
-}:  HeaderProps) {
-    const {shop, menu} = header;
-    return (
-        <header className="header">
-        <NavLink prefetch="intent" to="/" style={activeLinkStyle} end>
-            {/* <strong>{shop.name}</strong> */}
-            <strong>{"Nofuture"}</strong>
-        </NavLink>
-        <HeaderMenu
-            menu={menu}
-            viewport="desktop"
-            primaryDomainUrl={header.shop.primaryDomain.url}
-            publicStoreDomain={publicStoreDomain}
-        />
-        <HeaderCtas isLoggedIn={isLoggedIn} cart={cart} />
-        </header>
-    );
-}
-
-export function HeaderMenu({
-  menu,
-  primaryDomainUrl,
-  viewport,
-  publicStoreDomain,
-}: {
-  menu: HeaderProps['header']['menu'];
-  primaryDomainUrl: HeaderProps['header']['shop']['primaryDomain']['url'];
-  viewport: Viewport;
-  publicStoreDomain: HeaderProps['publicStoreDomain'];
-}) {
-  const className = `header-menu-${viewport}`;
-  const {close} = useAside();
-
-  return (
-    <nav className={className} role="navigation">
-      {viewport === 'mobile' && (
-        <NavLink
-          end
-          onClick={close}
-          prefetch="intent"
-          style={activeLinkStyle}
-          to="/"
-        >
-          Home
-        </NavLink>
-      )}
-      {(menu || FALLBACK_HEADER_MENU).items.map((item) => {
-        if (!item.url) return null;
-
-        // if the url is internal, we strip the domain
-        const url =
-          item.url.includes('myshopify.com') ||
-          item.url.includes(publicStoreDomain) ||
-          item.url.includes(primaryDomainUrl)
-            ? new URL(item.url).pathname
-            : item.url;
-        return (
-          <NavLink
-            className="header-menu-item"
-            end
-            key={item.id}
-            onClick={close}
-            prefetch="intent"
-            style={activeLinkStyle}
-            to={url}
-          >
-            {item.title}
-          </NavLink>
-        );
-      })}
-    </nav>
-  );
-}
-
-function HeaderCtas({
-  isLoggedIn,
-  cart,
-}: Pick<HeaderProps, 'isLoggedIn' | 'cart'>) {
-  return (
-    <nav className="header-ctas" role="navigation">
-      <HeaderMenuMobileToggle />
-      <NavLink prefetch="intent" to="/account" style={activeLinkStyle}>
-        <Suspense fallback="Sign in">
-          <Await resolve={isLoggedIn} errorElement="Sign in">
-            {(isLoggedIn) => (isLoggedIn ? 'Account' : 'Sign in')}
-          </Await>
-        </Suspense>
-      </NavLink>
-      <SearchToggle />
-      <CartToggle cart={cart} />
-    </nav>
-  );
-}
-
-function HeaderMenuMobileToggle() {
-  const {open} = useAside();
-  return (
-    <button
-      className="header-menu-mobile-toggle reset"
-      onClick={() => open('mobile')}
-    >
-      <h3>☰</h3>
-    </button>
-  );
-}
-
-function SearchToggle() {
-  const {open} = useAside();
-  return (
-    <button className="reset" onClick={() => open('search')}>
-      Search
-    </button>
-  );
-}
-
-function CartBadge({count}: {count: number | null}) {
-  const {open} = useAside();
-  const {publish, shop, cart, prevCart} = useAnalytics();
-
-  return (
-    <a
-      href="/cart"
-      onClick={(e) => {
-        e.preventDefault();
-        open('cart');
-        publish('cart_viewed', {
-          cart,
-          prevCart,
-          shop,
-          url: window.location.href || '',
-        } as CartViewPayload);
-      }}
-    >
-      Cart {count === null ? <span>&nbsp;</span> : count}
-    </a>
-  );
-}
-
-function CartToggle({cart}: Pick<HeaderProps, 'cart'>) {
-  return (
-    <Suspense fallback={<CartBadge count={null} />}>
-      <Await resolve={cart}>
-        <CartBanner />
-      </Await>
-    </Suspense>
-  );
-}
-
-function CartBanner() {
-  const originalCart = useAsyncValue() as CartApiQueryFragment | null;
-  const cart = useOptimisticCart(originalCart);
-  return <CartBadge count={cart?.totalQuantity ?? 0} />;
-}
-
-const FALLBACK_HEADER_MENU = {
-  id: 'gid://shopify/Menu/199655587896',
-  items: [
-    {
-      id: 'gid://shopify/MenuItem/461609500728',
-      resourceId: null,
-      tags: [],
-      title: 'Collections',
-      type: 'HTTP',
-      url: '/collections',
-      items: [],
-    },
-    {
-      id: 'gid://shopify/MenuItem/461609533496',
-      resourceId: null,
-      tags: [],
-      title: 'Blog',
-      type: 'HTTP',
-      url: '/blogs/journal',
-      items: [],
-    },
-    {
-      id: 'gid://shopify/MenuItem/461609566264',
-      resourceId: null,
-      tags: [],
-      title: 'Policies',
-      type: 'HTTP',
-      url: '/policies',
-      items: [],
-    },
-    {
-      id: 'gid://shopify/MenuItem/461609599032',
-      resourceId: 'gid://shopify/Page/92591030328',
-      tags: [],
-      title: 'About',
-      type: 'PAGE',
-      url: '/pages/about',
-      items: [],
-    },
-  ],
-};
-
-function activeLinkStyle({
-  isActive,
-  isPending,
-}: {
-  isActive: boolean;
-  isPending: boolean;
-}) {
-  return {
-    fontWeight: isActive ? 'bold' : undefined,
-    color: isPending ? 'grey' : 'black',
-  };
-}
+/* -------------------------------------------------------------
+   ACTIVE LINK STYLING — Hydrogen-like behavior
+-------------------------------------------------------------- */
+export function activeLinkStyle({isActive, isPending}) {
+  return {
+    fontWeight: isActive ? 'bold' : undefined,
+    color: isPending ? 'grey' : undefined,
+  };
+}
+
+/* -------------------------------------------------------------
+   MAIN HEADER (DESKTOP)
+-------------------------------------------------------------- */
+export function Header({
+  header,
+  cart,
+  isLoggedIn,
+  publicStoreDomain,
+}) {
+  const menu = header?.menu?.items ?? [];
+  const primaryDomainUrl = header?.shop?.primaryDomain?.url ?? '';
+  const [loggedIn, setLoggedIn] = useState(false);
+
+  const [condensed, setCondensed] = useState(false);
+
+  /* Resolve login state */
+  useEffect(() => {
+    Promise.resolve(isLoggedIn).then(setLoggedIn);
+  }, [isLoggedIn]);
+
+  /* Scroll condensing */
+  useEffect(() => {
+    let ticking = false;
+
+    const handleScroll = () => {
+      if (!ticking) {
+        requestAnimationFrame(() => {
+          const shouldCondense = window.scrollY >= 200;
+          setCondensed(shouldCondense);
+          ticking = false;
+        });
+        ticking = true;
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll, {passive: true});
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  return (
+    <div
+      className="sticky top-8 z-50 flex flex-row justify-between items-center mx-auto backdrop-blur-xl bg-black/95 border-2 border-zinc-800 transition-all duration-500 ease-out"
+      style={{
+        width: condensed ? '675px' : '1200px',
+        minWidth: condensed ? '675px' : '750px',
+        height: '60px',
+        padding: '0 20px',
+        borderRadius: condensed ? '999px' : '8px',
+      }}
+    >
+      {/* Logo */}
+      <div className="flex items-center min-w-0">
+        <img
+          src={condensed ? Logo : LogoText}
+          className="h-6 mr-3 object-contain transition-all duration-500 ease-out"
+          alt="Logo"
+        />
+      </div>
+
+      {/* Desktop nav */}
+      <nav
+        className="flex items-center transition-all duration-500 ease-out"
+        style={{
+          marginLeft: condensed ? '24px' : '40px',
+          gap: condensed ? '24px' : '32px',
+          transform: condensed ? 'translateX(-12px)' : 'translateX(0)',
+        }}
+      >
+        {/* HOME */}
+        <NavLink
+          to="/"
+          end
+          className="flex items-center gap-1.5 text-white hover:text-white text-sm font-semibold transition-all hover:-translate-y-0.5 whitespace-nowrap"
+        >
+          Home
+        </NavLink>
+
+        {/* SHOPIFY MENU ITEMS */}
+        {menu.map((item) => {
+          if (!item.url) return null;
+
+          const url =
+            item.url.includes('myshopify.com') ||
+            item.url.includes(publicStoreDomain) ||
+            item.url.includes(primaryDomainUrl)
+              ? new URL(item.url).pathname
+              : item.url;
+
+          return (
+            <NavLink
+              key={item.id}
+              to={url}
+              end
+              className="flex items-center gap-1.5 text-white hover:text-white text-sm font-semibold transition-all hover:-translate-y-0.5 whitespace-nowrap"
+            >
+              {item.title}
+            </NavLink>
+          );
+        })}
+      </nav>
+
+      {/* Right side CTAs */}
+      <div
+        className="flex items-center ml-auto transition-all duration-500 ease-out"
+        style={{gap: condensed ? '8px' : '12px'}}
+      >
+        {/* Mobile menu toggle */}
+        <button
+          className="flex items-center justify-center w-9 h-9 bg-none border-none text-white hover:text-white hover:bg-white/5 rounded hover:-translate-y-0.5 hover:scale-105"
+          onClick={openMobileMenu}
+        >
+          ☰
+        </button>
+
+        {/* Account */}
+        <NavLink
+          to="/account"
+          className="text-white hover:text-white text-sm font-semibold transition-all hover:-translate-y-0.5"
+        >
+          {loggedIn ? "Account" : "Sign in"}
+        </NavLink>
+
+        {/* Search */}
+        <button
+          onClick={openSearch}
+          className="flex items-center justify-center w-9 h-9 bg-none border-none text-white hover:text-white hover:bg-white/5 rounded hover:-translate-y-0.5 hover:scale-105"
+        >
+          <svg width="16" height="16" fill="none" viewBox="0 0 16 16">
+            <circle cx="7" cy="7" r="6" stroke="currentColor" strokeWidth="1.5" />
+            <path d="m13 13-6-6" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+          </svg>
+        </button>
+
+        {/* Cart */}
+        <button
+          onClick={openCart}
+          className="flex items-center justify-center w-9 h-9 bg-none border-none text-white hover:text-white hover:bg-white/5 rounded hover:-translate-y-0.5 hover:scale-105 relative"
+        >
+          Cart
+        </button>
+      </div>
+    </div>
+  );
+}
+
+/* -------------------------------------------------------------
+   MOBILE MENU (ASIDE)
+-------------------------------------------------------------- */
+export function HeaderMenu({
+  menu,
+  primaryDomainUrl,
+  viewport,
+  publicStoreDomain,
+}) {
+  const items = menu?.items ?? [];
+
+  return (
+    <nav className="flex flex-col gap-4 p-4">
+      {items.map((item) => {
+        if (!item.url) return null;
+
+        const url =
+          item.url.includes('myshopify.com') ||
+          item.url.includes(publicStoreDomain) ||
+          item.url.includes(primaryDomainUrl)
+            ? new URL(item.url).pathname
+            : item.url;
+
+        return (
+          <NavLink
+            key={item.id}
+            to={url}
+            end
+            className="text-lg text-white hover:text-white font-semibold"
+          >
+            {item.title}
+          </NavLink>
+        );
+      })}
+    </nav>
+  );
+}

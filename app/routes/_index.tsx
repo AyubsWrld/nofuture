@@ -1,4 +1,5 @@
 import {Await, useLoaderData, Link} from 'react-router';
+// import LoadingPage from '../components/LoadingPage';
 import type {Route} from './+types/_index';
 import { Banner } from '../components/Banner' ;
 import {Suspense} from 'react';
@@ -76,17 +77,20 @@ function FeaturedCollection({
   if (!collection) return null;
   const image = collection?.image;
   return (
-    <Link
-      className="featured-collection"
-      to={`/collections/${collection.handle}`}
-    >
-      {image && (
-        <div className="featured-collection-image">
-          <Image data={image} sizes="100vw" />
-        </div>
-      )}
-      <h1>{collection.title}</h1>
-    </Link>
+        <Link
+        to={`/collections/${collection.handle}`}
+        className="featured-collection mt-[64px] mb-[32px] block relative w-screen h-screen -ml-[50vw] left-1/2 bg-black"
+        >
+        <video
+                className="absolute inset-0 w-full h-full object-contain"
+                autoPlay
+                muted
+                loop
+                playsInline
+        >
+            <source src={"/videos/Comp.mp4"} type="video/mp4" />
+        </video>
+        </Link>
   );
 }
 

@@ -32,27 +32,27 @@ export function PageLayout({
   isLoggedIn,
   publicStoreDomain,
 }: PageLayoutProps) {
-  return (
-    <Aside.Provider>
-      <CartAside cart={cart} />
-      <SearchAside />
-      <MobileMenuAside header={header} publicStoreDomain={publicStoreDomain} />
-      {header && (
-        <Header
-          header={header}
-          cart={cart}
-          isLoggedIn={isLoggedIn}
-          publicStoreDomain={publicStoreDomain}
-        />
-      )}
-      <main>{children}</main>
-      <Footer
-        footer={footer}
-        header={header}
-        publicStoreDomain={publicStoreDomain}
-      />
-    </Aside.Provider>
-  );
+    return (
+            <Aside.Provider>
+            <CartAside cart={cart} />
+            <SearchAside />
+            <MobileMenuAside header={header} publicStoreDomain={publicStoreDomain} />
+            {header && (
+                <Header
+                header={header}
+                cart={cart}
+                isLoggedIn={isLoggedIn}
+                publicStoreDomain={publicStoreDomain}
+                />
+            )}
+            <main>{children}</main>
+            <Footer
+                footer={footer}
+                header={header}
+                publicStoreDomain={publicStoreDomain}
+            />
+            </Aside.Provider>
+    );
 }
 
 function CartAside({cart}: {cart: PageLayoutProps['cart']}) {
