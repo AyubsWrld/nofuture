@@ -10,6 +10,8 @@ import type {
 } from 'storefrontapi.generated';
 import {ProductItem} from '~/components/ProductItem';
 
+import { SectionTwo } from '../components/SectionTwo';
+
 export const meta: Route.MetaFunction = () => {
   return [{title: 'Hydrogen | Home'}];
 };
@@ -63,6 +65,7 @@ export default function Homepage() {
     return (
             <div className="home">
             <FeaturedCollection collection={data.featuredCollection} />
+            <SectionTwo />
             <RecommendedProducts products={data.recommendedProducts} />
             <Banner/>
             </div>
@@ -101,7 +104,9 @@ function RecommendedProducts({
 }) {
   return (
     <div className="recommended-products">
-      <h2>Recommended Products</h2>
+        <div className="index-category-heading">
+            <h2>Recommended Products</h2>
+        </div>
       <Suspense fallback={<div>Loading...</div>}>
         <Await resolve={products}>
           {(response) => (

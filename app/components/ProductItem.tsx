@@ -38,14 +38,13 @@ export function ProductItem({
           cursor-pointer hover:bg-neutral-800 
           px-0 py-0
           transition-colors
-          w-full
           aspect-square
           overflow-hidden
         "
       >
-        <CardContent className="flex flex-col p-0 w-full h-full">
+        <CardContent className="productcard-content">
           {/* Image Container */}
-          <div className="flex-1 w-full overflow-hidden bg-[#0a0a0a] flex items-center justify-center">
+          <div className="productcard-image ">
             <img
               alt={image?.altText || product.title}
               src={stockImage}
@@ -54,9 +53,9 @@ export function ProductItem({
           </div>
 
           {/* TEXTUAL DETAILS */}
-          <div className="flex items-end justify-between w-full px-4 py-3 gap-2 bg-[#141414]">
+          <div className="productcard-content-container">
             {/* TITLE + PRICE */}
-            <div className="flex flex-col items-start gap-0.5 flex-1 min-w-0">
+            <div className="productcard-text-container">
               <h3 className="font-medium text-white text-sm leading-5 line-clamp-1">
                 {product.title}
               </h3>
@@ -65,16 +64,16 @@ export function ProductItem({
               </p>
             </div>
 
-            <div className="flex items-center gap-2 flex-shrink-0">
+            <div className="productcard-tags-container">
               <Button
                 variant="ghost"
                 size="icon"
                 className="h-7 w-7 p-0 hover:bg-neutral-700"
                 onClick={(e) => e.preventDefault()}
               >
-                <Heart className="w-4 h-4 text-white" />
+                <Heart className="productcard-text-header " />
               </Button>
-              <Badge className="px-2 py-0.5 bg-[#2c2c2e] hover:bg-[#2c2c2e] rounded text-[9px] color-[#fff] leading-3 whitespace-nowrap">
+              <Badge className="productcard-text-subtext ">
                 Clothes
               </Badge>
             </div>

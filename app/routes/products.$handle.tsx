@@ -77,9 +77,9 @@ export default function Product() {
   const {title, descriptionHtml} = product;
 
   return (
-    <div className="min-h-screen bg-black text-white">
+    <div className="min-h-screen text-white">
       <div className="max-w-7xl mx-auto px-6 py-12">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-16">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
           {/* Image Section */}
           <div className="flex items-center justify-center">
             <div className="w-full aspect-square bg-black rounded-lg overflow-hidden border border-gray-900">
@@ -88,22 +88,24 @@ export default function Product() {
           </div>
 
           {/* Content Section */}
-          <div className="flex flex-col justify-start pt-8">
-            {/* Title */}
-            <div className='gap-0'>
-                <text className="text-[40px] font-bold mb-0 tracking-tight">
-                {title}
-                </text>
+          <div className="product-form-text-container">
+            <div className="tester">
+
+                <text className="product-form-text-header ">
+                {title}
+                </text>
+                
                 {/* Price */}
-                <div className="text-[32px]">
+                <div className="text-2xl mb-6">
                 <ProductPrice
                     price={selectedVariant?.price}
                     compareAtPrice={selectedVariant?.compareAtPrice}
                 />
-                </div>
             </div>
+            </div>
+            
             {/* Product Form */}
-            <div className="mb-10">
+            <div className="mb-6">
               <ProductForm
                 productOptions={productOptions}
                 selectedVariant={selectedVariant}
@@ -111,27 +113,34 @@ export default function Product() {
             </div>
 
             {/* Description */}
-            <div className="text-gray-400 text-sm leading-relaxed mb-10">
+            <div className="text-[#D3D3D3] text-sm leading-relaxed mb-8">
               <div dangerouslySetInnerHTML={{__html: descriptionHtml}} />
             </div>
 
             {/* Benefits Section */}
-            <div className="border-t border-gray-800 pt-10">
-              <div className="grid grid-cols-3 gap-8">
-                <div className="flex flex-col items-center text-center">
-                  <div className="mb-3 text-gray-400">🚚</div>
-                  <div className="text-sm font-semibold">Free Delivery</div>
-                  <div className="text-xs text-gray-500">1-2 day</div>
+            <div className="pt-6">
+              <div className="product-form-subdetail-chips-container">
+                <div className="product-form-subdetail-chip">
+                  <div className="product-form-chip-icon">📦</div>
+                    <div className="product-form-chip-text-container">
+                        <div className="product-form-chip-header">Free Delivery</div>
+                        <div className="product-form-chip-subtext">1-2 day</div>
+                    </div>
                 </div>
-                <div className="flex flex-col items-center text-center">
-                  <div className="mb-3 text-gray-400">🏠</div>
-                  <div className="text-sm font-semibold">In Stock</div>
-                  <div className="text-xs text-gray-500">30</div>
-                </div>
-                <div className="flex flex-col items-center text-center">
-                  <div className="mb-3 text-gray-400">✓</div>
-                  <div className="text-sm font-semibold">Guaranteed</div>
-                  <div className="text-xs text-gray-500">1 year</div>
+
+                <div className="product-form-subdetail-chip">
+                  <div className="product-form-chip-icon">📦</div>
+                    <div className="product-form-chip-text-container">
+                        <div className="product-form-chip-header">Free Delivery</div>
+                        <div className="product-form-chip-subtext">1-2 day</div>
+                    </div>
+                </div>
+                <div className="product-form-subdetail-chip">
+                  <div className="product-form-chip-icon">📦</div>
+                    <div className="product-form-chip-text-container">
+                        <div className="product-form-chip-header">Free Delivery</div>
+                        <div className="product-form-chip-subtext">1-2 day</div>
+                    </div>
                 </div>
               </div>
             </div>
