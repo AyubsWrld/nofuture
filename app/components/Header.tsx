@@ -14,10 +14,10 @@ function openSearch() {
 }
 function openCart() {
   console.log("Open cart drawer");
-}
-
+}
+
 /* -------------------------------------------------------------
-   ACTIVE LINK STYLING — Hydrogen-like behavior
+   ACTIVE LINK STYLING
 -------------------------------------------------------------- */
 export function activeLinkStyle({isActive, isPending}) {
   return {
@@ -37,9 +37,12 @@ export function Header({
 }) {
   const menu = header?.menu?.items ?? [];
   const primaryDomainUrl = header?.shop?.primaryDomain?.url ?? '';
-  const [loggedIn, setLoggedIn] = useState(false);
 
+  const [loggedIn, setLoggedIn] = useState(false);
   const [condensed, setCondensed] = useState(false);
+
+  // Fade-in visibility state
+  const [visible, setVisible] = useState(false);
 
   /* Resolve login state */
   useEffect(() => {
@@ -49,7 +52,6 @@ export function Header({
   /* Scroll condensing */
   useEffect(() => {
     let ticking = false;
-
     const handleScroll = () => {
       if (!ticking) {
         requestAnimationFrame(() => {
@@ -65,6 +67,12 @@ export function Header({
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  /* 🔥 Fade-in animation when header appears */
+  useEffect(() => {
+    const timer = setTimeout(() => setVisible(true), 300);
+    return () => clearTimeout(timer);
+  }, []);
+
   return (
     <div
       className="sticky top-8 z-50 flex flex-row justify-between items-center mx-auto backdrop-blur-xl bg-black/95 border-2 border-zinc-800 transition-all duration-500 ease-out"
@@ -74,6 +82,12 @@ export function Header({
         height: '60px',
         padding: '0 20px',
         borderRadius: condensed ? '999px' : '8px',
+
+        // ✨ Fade-in + slide effect
+        opacity: visible ? 1 : 0,
+        transform: visible ? 'translateY(0px)' : 'translateY(-12px)',
+        transition: 'all 0.6s ease-out',
+        animationDelay: '3.6s'
       }}
     >
       {/* Logo */}
@@ -103,7 +117,7 @@ export function Header({
           Home
         </NavLink>
 
-        {/* SHOPIFY MENU ITEMS */}
+        {/* Shopify menu items */}
         {menu.map((item) => {
           if (!item.url) return null;
 
@@ -132,21 +146,13 @@ export function Header({
         className="flex items-center ml-auto transition-all duration-500 ease-out"
         style={{gap: condensed ? '8px' : '12px'}}
       >
-        {/* Mobile menu toggle */}
+        {/* Mobile menu */}
         <button
           className="flex items-center justify-center w-9 h-9 bg-none border-none text-white hover:text-white hover:bg-white/5 rounded hover:-translate-y-0.5 hover:scale-105"
           onClick={openMobileMenu}
         >
           ☰
         </button>
-
-        {/* Account */}
-        <NavLink
-          to="/account"
-          className="text-white hover:text-white text-sm font-semibold transition-all hover:-translate-y-0.5"
-        >
-          {loggedIn ? "Account" : "Sign in"}
-        </NavLink>
 
         {/* Search */}
         <button
@@ -172,7 +178,7 @@ export function Header({
 }
 
 /* -------------------------------------------------------------
-   MOBILE MENU (ASIDE)
+   MOBILE MENU
 -------------------------------------------------------------- */
 export function HeaderMenu({
   menu,

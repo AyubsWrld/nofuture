@@ -22,18 +22,70 @@
 }
 
 .main-image {
-  grid-row: span 2;
+    grid-row: 1 / 3;
+    grid-column: 1;
+    width: 100%;
+    height: 650px;
+    border-radius: 32px;
+    overflow: hidden;
+    background: #1a1a1a;
+}
+
+.main-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+  border-radius: 32px;
 }
 
 .side-images {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 12px;
-    min-height: 200px;
+  grid-column: 2;
+  grid-row: 1;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  width: 100%;
+  height: 100%;
+}
+
+.side-image-top,
+.side-image-middle {
+  width: 100%;
+  height: 100%;
+  border-radius: 32px;
+  overflow: hidden;
+  background: #1a1a1a;
+}
+
+.side-image-top img,
+.side-image-middle img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+  border-radius: 32px;
 }
 
 .bottom-image {
-  grid-column: span 1;
+  grid-column: 2;
+  grid-row: 2;
+  width: 100%;
+  height: 200px;
+  border-radius: 32px;
+  overflow: hidden;
+  background: #1a1a1a;
+}
+
+.bottom-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+  border-radius: 32px;
 }
 
 .image-placeholder {
@@ -621,4 +673,5 @@
   font-size: 15px;
   line-height: 1.5rem;
 }
+
 

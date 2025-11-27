@@ -1,6 +1,5 @@
 'use client';
 
-import LogoSolo from '../public/logosolo.png';
 import { useState, useEffect } from 'react';
 
 const RenderBar = () => {
@@ -75,7 +74,7 @@ const LoadingPage: React.FC<LoadingPageProps> = ({ isVisible }) => {
             }}
         >
             <img
-                src={"../../public/logosolo.svg"}
+                src={"../../public/logow.png"}
                 alt="Logo"
                 className="absolute z-10 scale-40"
                 width={200}
@@ -117,4 +116,5 @@ export default function Home() {
         </>
     );
 }
+
 

@@ -227,18 +227,36 @@ export default function SectionTwo() {
   return (
     <section className="section-two">
       <div className="grid-container">
+        {/* Main large image on the left */}
         <div className="main-image">
-            <img
-            className="fit-picture"
-            src="../../../public/dump_images/Three.PNG"
-            alt="Grapefruit slice atop a pile of other slices" />
+          <img
+            src="../../../public/dump_images/Three.PNG"
+            alt="Main product showcase"
+          />
         </div>
+
+        {/* Top right side images (2 small images) */}
         <div className="side-images">
-          <div className="image-placeholder small">Detail 1</div>
-          <div className="image-placeholder small">Detail 2</div>
+          <div className="side-image-top">
+            <img
+              src="../../../public/dump_images/Two.PNG"
+              alt="Product detail 1"
+            />
+          </div>
+          <div className="side-image-middle">
+            <img
+              src="../../../public/dump_images/Four.PNG"
+              alt="Product detail 2"
+            />
+          </div>
         </div>
+
+        {/* Bottom right image */}
         <div className="bottom-image">
-          <div className="image-placeholder">Detail 3</div>
+          <img
+            src="../../../public/dump_images/Five.PNG"
+            alt="Product detail 3"
+          />
         </div>
       </div>
 
