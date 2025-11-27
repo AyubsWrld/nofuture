@@ -43,6 +43,11 @@ export const ColumnOne = (): JSX.Element => {
                     </div>
                 </div>
 
+                <div className='section-divider-container'>
+                    <div className='section-divider'>
+                    </div>
+                </div>
+
                 <div className="product-section">
                     <h3 className="section-title">Size</h3>
                     <div className="size-options">

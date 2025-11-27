@@ -10,7 +10,7 @@ import type {
 } from 'storefrontapi.generated';
 import {ProductItem} from '~/components/ProductItem';
 
-import { SectionTwo } from '../components/SectionTwo';
+import   SectionTwo  from '../components/SectionTwo/SectionTwo';
 
 export const meta: Route.MetaFunction = () => {
   return [{title: 'Hydrogen | Home'}];
@@ -82,7 +82,7 @@ function FeaturedCollection({
   return (
         <Link
         to={`/collections/${collection.handle}`}
-        className="featured-collection mt-[64px] mb-[32px] block relative w-screen h-screen -ml-[50vw] left-1/2 bg-black"
+        className="home-image"
         >
         <video
                 className="absolute inset-0 w-full h-full object-contain"
@@ -105,7 +105,7 @@ function RecommendedProducts({
   return (
     <div className="recommended-products">
         <div className="index-category-heading">
-            <h2>Recommended Products</h2>
+            <text>Recommended Products</text>
         </div>
       <Suspense fallback={<div>Loading...</div>}>
         <Await resolve={products}>

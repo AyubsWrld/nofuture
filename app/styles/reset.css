@@ -27,15 +27,12 @@ h1 {
   font-size: 1.6rem;
   font-weight: 700;
   line-height: 1.4;
-  margin-bottom: 2rem;
-  margin-top: 2rem;
 }
 
 h2 {
   font-size: 1.2rem;
   font-weight: 700;
   line-height: 1.4;
-  margin-bottom: 1rem;
 }
 
 h4 {
@@ -83,9 +80,7 @@ body > main {
 }
 
 section {
-  padding: 1rem 0;
   @media (min-width: 768px) {
-    padding: 2rem 0;
   }
 }
 
