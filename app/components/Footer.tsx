@@ -148,7 +148,7 @@ function FooterMenu({
               className="flex items-center gap-2.5 p-3 self-stretch w-full h-auto bg-white rounded-[32px] hover:bg-gray-100"
             >
               <div className="w-10 h-10 bg-[#141414] rounded-[20px] overflow-hidden flex items-center justify-center flex-shrink-0">
-                <img className="w-3 h-3" alt="Twitter x" src="../../public/twitter-x.svg" />
+                <img className="w-3 h-3" alt="Twitter x" src="/twitter-x.svg" />
               </div>
               <span className="[font-family:'Inter_Tight',Helvetica] font-medium text-black text-lg tracking-[0] leading-[25.2px] whitespace-nowrap">
                 Follow Nofuture on X

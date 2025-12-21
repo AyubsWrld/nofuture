@@ -128,7 +128,6 @@ function loadDeferredData({context}: Route.LoaderArgs) {
   };
 }
 
-// Loading Page Components
 const RenderBar = () => {
   const bars = 8;
   const initialDelay = 3;
@@ -200,9 +199,8 @@ const LoadingPage: React.FC<LoadingPageProps> = ({ isVisible }) => {
         pointerEvents: isVisible ? 'auto' : 'none',
       }}
     >
-      <img
-        // src={'../public/logow.png'}
-        src={'../public/logocolor.png'}
+      <img
+        src={'/logocolor.png'}
         alt="Logo"
         className="absolute z-50"
         width={200}

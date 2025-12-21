@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import LogoColor from '/logocolor.png'
+import LogoColor from '/twitter-x.svg'
 
 const RenderBar = () => {
     const bars = 8;
