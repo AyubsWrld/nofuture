@@ -163,7 +163,7 @@ function FooterMenu({
               <img
                 className="absolute top-[31px] left-[75px] w-[110px] h-[110px]"
                 alt="Qr code"
-                src="../../public/qr-code.svg"
+                src="/qr-code.svg"
               />
             </div>
           </CardContent>
