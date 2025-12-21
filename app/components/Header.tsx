@@ -67,7 +67,6 @@ export function Header({
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  /* 🔥 Fade-in animation when header appears */
   useEffect(() => {
     const timer = setTimeout(() => setVisible(true), 300);
     return () => clearTimeout(timer);
@@ -75,7 +74,7 @@ export function Header({
 
   return (
     <div
-      className="sticky top-8 z-50 flex flex-row justify-between items-center mx-auto backdrop-blur-xl bg-black/95 border-2 border-zinc-800 transition-all duration-500 ease-out"
+      className="sticky top-8 z-10 flex flex-row justify-between items-center mx-auto backdrop-blur-xl bg-black/95 border-2 border-zinc-800 transition-all duration-500 ease-out"
       style={{
         width: condensed ? '675px' : '1200px',
         minWidth: condensed ? '675px' : '750px',
@@ -83,11 +82,10 @@ export function Header({
         padding: '0 20px',
         borderRadius: condensed ? '999px' : '8px',
 
-        // ✨ Fade-in + slide effect
         opacity: visible ? 1 : 0,
         transform: visible ? 'translateY(0px)' : 'translateY(-12px)',
         transition: 'all 0.6s ease-out',
-        animationDelay: '3.6s'
+        animationDelay: '7.6s'
       }}
     >
       {/* Logo */}

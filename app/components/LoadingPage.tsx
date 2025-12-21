@@ -66,7 +66,7 @@ interface LoadingPageProps {
 const LoadingPage: React.FC<LoadingPageProps> = ({ isVisible }) => {
     return (
         <div
-            className="w-screen h-screen flex items-center justify-center bg-white fixed top-0 left-0 z-50 pointer-events-none"
+            className="w-screen h-screen flex items-center justify-center bg-white fixed top-0 left-0 z-60 pointer-events-none z-60"
             style={{
                 opacity: isVisible ? 1 : 0,
                 transition: 'opacity 0.5s ease-in-out',

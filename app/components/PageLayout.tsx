@@ -14,6 +14,7 @@ import {
   SearchFormPredictive,
 } from '~/components/SearchFormPredictive';
 import {SearchResultsPredictive} from '~/components/SearchResultsPredictive';
+import {Newsletter} from '../components/Newsletter';
 
 interface PageLayoutProps {
   cart: Promise<CartApiQueryFragment | null>;
@@ -35,6 +36,7 @@ export function PageLayout({
     return (
             <Aside.Provider>
             <CartAside cart={cart} />
+            <Newsletter/> 
             <SearchAside />
             <MobileMenuAside header={header} publicStoreDomain={publicStoreDomain} />
             {header && (

@@ -10,28 +10,35 @@ type CartSummaryProps = {
   layout: CartLayout;
 };
 
-export function CartSummary({cart, layout}: CartSummaryProps) {
-  const className =
-    layout === 'page' ? 'cart-summary-page' : 'cart-summary-aside';
-
-  return (
-    <div aria-labelledby="cart-summary" className={className}>
-      <h4>Totals</h4>
-      <dl className="cart-subtotal">
-        <dt>Subtotal</dt>
-        <dd>
-          {cart?.cost?.subtotalAmount?.amount ? (
-            <Money data={cart?.cost?.subtotalAmount} />
-          ) : (
-            '-'
-          )}
-        </dd>
-      </dl>
-      <CartDiscounts discountCodes={cart?.discountCodes} />
-      <CartGiftCard giftCardCodes={cart?.appliedGiftCards} />
-      <CartCheckoutActions checkoutUrl={cart?.checkoutUrl} />
-    </div>
-  );
+export function CartSummary({cart, layout}: CartSummaryProps) {
+  return (
+    <div className="order-summary">
+      <h3 className="order-summary-title">Order Summary</h3>
+
+      <div className="order-summary-section">
+        <label>Discount code / Promo code</label>
+        <CartDiscounts discountCodes={cart?.discountCodes} />
+      </div>
+
+      <div className="order-summary-section">
+        <label>Gift card code</label>
+        <CartGiftCard giftCardCodes={cart?.appliedGiftCards} />
+      </div>
+
+      <div className="order-summary-subtotal">
+        <span className="order-summary-subtotal-title" >Subtotal</span>
+        <span className="order-summary-subtotal-amount">
+          {cart?.cost?.subtotalAmount?.amount ? (
+            <Money data={cart.cost.subtotalAmount} />
+          ) : (
+            '-'
+          )}
+        </span>
+      </div>
+
+      <CartCheckoutActions checkoutUrl={cart?.checkoutUrl} />
+    </div>
+  );
 }
 
 function CartCheckoutActions({checkoutUrl}: {checkoutUrl?: string}) {
@@ -40,7 +47,8 @@ function CartCheckoutActions({checkoutUrl}: {checkoutUrl?: string}) {
   return (
     <div>
       <a href={checkoutUrl} target="_self">
-        <p>Continue to Checkout &rarr;</p>
+        {/* <p>Continue to Checkout &rarr;</p> */}
+        <button className="checkout-button">Checkout</button>
       </a>
       <br />
     </div>
@@ -63,13 +71,16 @@ function CartDiscounts({
       <dl hidden={!codes.length}>
         <div>
           <dt>Discount(s)</dt>
-          <UpdateDiscountForm>
-            <div className="cart-discount">
-              <code>{codes?.join(', ')}</code>
-              &nbsp;
-              <button>Remove</button>
-            </div>
-          </UpdateDiscountForm>
+            <UpdateDiscountForm discountCodes={codes}>
+            <div className="order-summary-input-group">
+                <input
+                type="text"
+                name="discountCode"
+                placeholder="Code"
+                />
+                <button type="submit">Apply</button>
+            </div>
+            </UpdateDiscountForm>
         </div>
       </dl>
 
