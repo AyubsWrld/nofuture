@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import LogoColor from '/logocolor.png'
 
 const RenderBar = () => {
     const bars = 8;
@@ -74,7 +75,7 @@ const LoadingPage: React.FC<LoadingPageProps> = ({ isVisible }) => {
             }}
         >
             <img
-                src={"/logocolor.png"}
+                src={LogoColor}
                 alt="Logo"
                 className="absolute z-10 scale-40"
                 width={200}
