@@ -1,7 +1,8 @@
 - [x] Fix logo loading screen 
-- [ ] Fix Header
+- [x] Fix Header Overlapping
 - [x] Newsletter Visuals.
-- [ ] Front Swap Videos && remove the playing in picture. 
+- [x] Front Swap Videos 
+- [x] Remove the playing in picture. 
 - [ ] Make the collections prettier. 
 - [ ] Fix Highlight. 
 - [ ] Fix the loading screen to use the other logo.

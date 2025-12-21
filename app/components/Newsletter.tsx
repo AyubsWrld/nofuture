@@ -55,7 +55,7 @@ export function Newsletter() {
                     </div>
                 </div>
                 <div className='newsletter-image'>
-                    <img src="/logow.png" alt="Logo" />
+                    <img src="/logocolor.png" alt="Logo" />
                 </div>
             </div>
           </div>

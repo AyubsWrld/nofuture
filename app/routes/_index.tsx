@@ -1,8 +1,7 @@
 import {Await, useLoaderData, Link} from 'react-router';
-// import LoadingPage from '../components/LoadingPage';
 import type {Route} from './+types/_index';
 import { Banner } from '../components/Banner' ;
-import {Suspense} from 'react';
+import {Suspense, useState} from 'react';
 import {Image} from '@shopify/hydrogen';
 import type {
   FeaturedCollectionFragment,
@@ -77,23 +76,68 @@ function FeaturedCollection({
 }: {
   collection: FeaturedCollectionFragment;
 }) {
+  const [activeVideo, setActiveVideo] = useState(0);
+  
   if (!collection) return null;
-  const image = collection?.image;
+  
+  const videos = [
+    "/videos/Comp.mp4",
+    "/videos/Comp2.mp4"
+  ];
+
   return (
-        <Link
-        to={`/collections/${collection.handle}`}
-        className="home-image"
-        >
-        <video
-                className="absolute inset-0 w-full h-full object-contain"
-                autoPlay
-                muted
-                loop
-                playsInline
-        >
-            <source src={"/videos/Comp.mp4"} type="video/mp4" />
-        </video>
-        </Link>
+    <Link
+      to={`/collections/${collection.handle}`}
+      className="home-image"
+    >
+      {/* video 1 */}
+      <video
+        className={`absolute inset-0 w-full h-full object-contain transition-opacity duration-500 ${
+          activeVideo === 0 ? 'opacity-100' : 'opacity-0'
+        }`}
+        autoPlay
+        muted
+        loop
+        playsInline
+        disablePictureInPicture
+      >
+        <source src={videos[0]} type="video/mp4" />
+      </video>
+
+      {/* video 2 */}
+      <video
+        className={`absolute inset-0 w-full h-full object-contain transition-opacity duration-500 ${
+          activeVideo === 1 ? 'opacity-100' : 'opacity-0'
+        }`}
+        autoPlay
+        muted
+        loop
+        playsInline
+        disablePictureInPicture
+      >
+        <source src={videos[1]} type="video/mp4" />
+      </video>
+
+      {/* pagination dots */}
+        <div className="video-pagination">
+            <div className="video-pagination-container">
+                <button
+                onClick={(e) => {
+                    e.preventDefault();
+                    setActiveVideo(0);
+                }}
+                className={`video-pagination-dot ${activeVideo === 0 ? 'active' : ''}`}
+                />
+                <button
+                onClick={(e) => {
+                    e.preventDefault();
+                    setActiveVideo(1);
+                }}
+                className={`video-pagination-dot ${activeVideo === 1 ? 'active' : ''}`}
+                />
+            </div>
+        </div>
+    </Link>
   );
 }
 

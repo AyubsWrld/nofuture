@@ -138,77 +138,77 @@ export function Header({
           );
         })}
       </nav>
+
+      {/* Right side CTAs */}
+      <div
+        className="flex items-center ml-auto transition-all duration-500 ease-out"
+        style={{gap: condensed ? '8px' : '12px'}}
+      >
+        {/* Mobile menu */}
+        <button
+          className="flex items-center justify-center w-9 h-9 bg-none border-none text-white hover:text-white hover:bg-white/5 rounded hover:-translate-y-0.5 hover:scale-105"
+          onClick={openMobileMenu}
+        >
+          ☰
+        </button>
+
+        {/* Search */}
+        <button
+          onClick={openSearch}
+          className="flex items-center justify-center w-9 h-9 bg-none border-none text-white hover:text-white hover:bg-white/5 rounded hover:-translate-y-0.5 hover:scale-105"
+        >
+          <svg width="16" height="16" fill="none" viewBox="0 0 16 16">
+            <circle cx="7" cy="7" r="6" stroke="currentColor" strokeWidth="1.5" />
+            <path d="m13 13-6-6" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+          </svg>
+        </button>
 
-      {/* Right side CTAs */}
-      <div
-        className="flex items-center ml-auto transition-all duration-500 ease-out"
-        style={{gap: condensed ? '8px' : '12px'}}
-      >
-        {/* Mobile menu */}
-        <button
-          className="flex items-center justify-center w-9 h-9 bg-none border-none text-white hover:text-white hover:bg-white/5 rounded hover:-translate-y-0.5 hover:scale-105"
-          onClick={openMobileMenu}
-        >
-          ☰
-        </button>
-
-        {/* Search */}
-        <button
-          onClick={openSearch}
-          className="flex items-center justify-center w-9 h-9 bg-none border-none text-white hover:text-white hover:bg-white/5 rounded hover:-translate-y-0.5 hover:scale-105"
-        >
-          <svg width="16" height="16" fill="none" viewBox="0 0 16 16">
-            <circle cx="7" cy="7" r="6" stroke="currentColor" strokeWidth="1.5" />
-            <path d="m13 13-6-6" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-          </svg>
-        </button>
-
-        {/* Cart */}
-        <button
-          onClick={openCart}
-          className="flex items-center justify-center w-9 h-9 bg-none border-none text-white hover:text-white hover:bg-white/5 rounded hover:-translate-y-0.5 hover:scale-105 relative"
-        >
-          Cart
-        </button>
-      </div>
-    </div>
-  );
-}
-
-/* -------------------------------------------------------------
-   MOBILE MENU
--------------------------------------------------------------- */
-export function HeaderMenu({
-  menu,
-  primaryDomainUrl,
-  viewport,
-  publicStoreDomain,
-}) {
-  const items = menu?.items ?? [];
-
-  return (
-    <nav className="flex flex-col gap-4 p-4">
-      {items.map((item) => {
-        if (!item.url) return null;
-
-        const url =
-          item.url.includes('myshopify.com') ||
-          item.url.includes(publicStoreDomain) ||
-          item.url.includes(primaryDomainUrl)
-            ? new URL(item.url).pathname
-            : item.url;
-
-        return (
-          <NavLink
-            key={item.id}
-            to={url}
-            end
-            className="text-lg text-white hover:text-white font-semibold"
-          >
-            {item.title}
-          </NavLink>
-        );
-      })}
-    </nav>
-  );
-}
+        {/* Cart */}
+        <button
+          onClick={openCart}
+          className="flex items-center justify-center w-9 h-9 bg-none border-none text-white hover:text-white hover:bg-white/5 rounded hover:-translate-y-0.5 hover:scale-105 relative"
+        >
+          Cart
+        </button>
+      </div>
+    </div>
+  );
+}
+
+/* -------------------------------------------------------------
+   MOBILE MENU
+-------------------------------------------------------------- */
+export function HeaderMenu({
+  menu,
+  primaryDomainUrl,
+  viewport,
+  publicStoreDomain,
+}) {
+  const items = menu?.items ?? [];
+
+  return (
+    <nav className="flex flex-col gap-4 p-4">
+      {items.map((item) => {
+        if (!item.url) return null;
+
+        const url =
+          item.url.includes('myshopify.com') ||
+          item.url.includes(publicStoreDomain) ||
+          item.url.includes(primaryDomainUrl)
+            ? new URL(item.url).pathname
+            : item.url;
+
+        return (
+          <NavLink
+            key={item.id}
+            to={url}
+            end
+            className="text-lg text-white hover:text-white font-semibold"
+          >
+            {item.title}
+          </NavLink>
+        );
+      })}
+    </nav>
+  );
+}
