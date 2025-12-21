@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import './style.css';
+import LogoText from '../../../public/dump_images/Two.PNG';
 
 const StarIcon = ({ filled }) => (
   <svg 
@@ -239,7 +240,7 @@ export default function SectionTwo() {
         <div className="side-images">
           <div className="side-image-top">
             <img
-              src="../../../public/dump_images/Two.PNG"
+              src={LogoText}
               alt="Product detail 1"
             />
           </div>
