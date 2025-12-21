@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import './style.css';
-import LogoText from '../../../public/dump_images/Two.PNG';
+import LogoText from '/Two.PNG';
 
 const StarIcon = ({ filled }) => (
   <svg 
@@ -231,7 +231,7 @@ export default function SectionTwo() {
         {/* Main large image on the left */}
         <div className="main-image">
           <img
-            src="../../../public/dump_images/Three.PNG"
+            src="/Three.PNG"
             alt="Main product showcase"
           />
         </div>
@@ -246,7 +246,7 @@ export default function SectionTwo() {
           </div>
           <div className="side-image-middle">
             <img
-              src="../../../public/dump_images/Four.PNG"
+              src="/Four.PNG"
               alt="Product detail 2"
             />
           </div>
@@ -255,7 +255,7 @@ export default function SectionTwo() {
         {/* Bottom right image */}
         <div className="bottom-image">
           <img
-            src="../../../public/dump_images/Five.PNG"
+            src="/Five.PNG"
             alt="Product detail 3"
           />
         </div>
