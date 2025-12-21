@@ -74,7 +74,7 @@ const LoadingPage: React.FC<LoadingPageProps> = ({ isVisible }) => {
             }}
         >
             <img
-                src={"../../public/logow.png"}
+                src={"/logow.png"}
                 alt="Logo"
                 className="absolute z-10 scale-40"
                 width={200}

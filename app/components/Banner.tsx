@@ -2,9 +2,9 @@ import React, { useEffect, useRef } from "react";
 
 const marqueeItems = [
   { type: "text", content: "NoFuture" },
-  { type: "icon", content: "../../public/vector-746.svg" },
+  { type: "icon", content: "/vector-746.svg" },
   { type: "text", content: "NoFuture" },
-  { type: "icon", content: "../../public/vector-746.svg" },
+  { type: "icon", content: "/vector-746.svg" },
   { type: "text", content: "NoFuture" },
 ];
 
