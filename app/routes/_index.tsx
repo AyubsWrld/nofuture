@@ -1,38 +1,131 @@
 import {Await, useLoaderData, Link} from 'react-router';
 import type {Route} from './+types/_index';
 import { Banner } from '../components/Banner' ;
-import {Suspense, useState} from 'react';
+import {Suspense, useState, useEffect} from 'react';
 import {Image} from '@shopify/hydrogen';
 import type {
   FeaturedCollectionFragment,
   RecommendedProductsQuery,
 } from 'storefrontapi.generated';
 import {ProductItem} from '~/components/ProductItem';
+import SectionTwo from '../components/SectionTwo/SectionTwo';
 
-import   SectionTwo  from '../components/SectionTwo/SectionTwo';
+const styles = {
+  home: {
+    gap: '120px',
+    display: 'flex',
+    flexDirection: 'column' as const,
+  },
+  homeImage: {
+    position: 'relative' as const,
+    left: '50%',
+    marginLeft: '-50vw',
+    marginBottom: '32px',
+    marginTop: '64px',
+    display: 'block',
+    height: '100vh',
+    width: '100vw',
+    backgroundColor: 'rgb(0,0,0)',
+    maxHeight: '720px',
+  },
+  homeImageMobile: {
+    marginTop: '32px',
+    marginBottom: '16px',
+    maxHeight: '50vh',
+    minHeight: '400px',
+  },
+  video: {
+    pointerEvents: 'none' as const,
+  },
+  videoPagination: {
+    position: 'absolute' as const,
+    bottom: '2rem',
+    left: '50%',
+    transform: 'translateX(-50%)',
+    zIndex: 10,
+  },
+  videoPaginationMobile: {
+    bottom: '1rem',
+  },
+  videoPaginationContainer: {
+    display: 'flex',
+    zIndex: 10,
+    alignItems: 'center',
+    gap: '0.5rem',
+    padding: '10px 16px',
+    backgroundColor: '#191919',
+    borderColor: '#333535',
+    borderRadius: '999px',
+    borderWidth: '1px',
+  },
+  videoPaginationContainerMobile: {
+    padding: '8px 12px',
+    gap: '0.375rem',
+  },
+  videoPaginationDot: {
+    width: '0.625rem',
+    height: '0.625rem',
+    borderRadius: '9999px',
+    transition: 'all 0.3s',
+    border: 'none',
+    cursor: 'pointer',
+    backgroundColor: '#3d3d3d',
+  },
+  videoPaginationDotMobile: {
+    width: '0.5rem',
+    height: '0.5rem',
+  },
+  videoPaginationDotActive: {
+    width: '2rem',
+    backgroundColor: '#ffffff',
+  },
+  videoPaginationDotActiveMobile: {
+    width: '1.5rem',
+  },
+  recommendedProducts: {
+    padding: '3.5rem',
+    gap: '32px',
+    display: 'flex',
+    flexDirection: 'column' as const,
+  },
+  recommendedProductsMobile: {
+    padding: '2rem 1.5rem',
+    gap: '24px',
+  },
+  indexCategoryHeading: {
+    fontSize: '32px',
+    fontWeight: 600,
+  },
+  indexCategoryHeadingMobile: {
+    fontSize: '24px',
+  },
+  recommendedProductsGrid: {
+    display: 'grid',
+    gridGap: '1.5rem',
+    gridTemplateColumns: 'repeat(4, 1fr)',
+  },
+  recommendedProductsGridTablet: {
+    gridTemplateColumns: 'repeat(2, 1fr)',
+  },
+  recommendedProductsGridMobile: {
+    gridTemplateColumns: '1fr',
+    gridGap: '1rem',
+  },
+};
 
 export const meta: Route.MetaFunction = () => {
   return [{title: 'Hydrogen | Home'}];
 };
 
 export async function loader(args: Route.LoaderArgs) {
-  // Start fetching non-critical data without blocking time to first byte
   const deferredData = loadDeferredData(args);
-
-  // Await the critical data required to render initial state of the page
   const criticalData = await loadCriticalData(args);
-
   return {...deferredData, ...criticalData};
 }
 
-/**
- * Load data necessary for rendering content above the fold. This is the critical data
- * needed to render the page. If it's unavailable, the whole page should 400 or 500 error.
- */
 async function loadCriticalData({context}: Route.LoaderArgs) {
   const [{collections}] = await Promise.all([
     context.storefront.query(FEATURED_COLLECTION_QUERY),
-    // Add other queries here, so that they are loaded in parallel
   ]);
 
   return {
@@ -40,16 +133,10 @@ async function loadCriticalData({context}: Route.LoaderArgs) {
   };
 }
 
-/**
- * Load data for rendering content below the fold. This data is deferred and will be
- * fetched after the initial page load. If it's unavailable, the page should still 200.
- * Make sure to not throw any errors here, as it will cause the page to 500.
- */
 function loadDeferredData({context}: Route.LoaderArgs) {
   const recommendedProducts = context.storefront
     .query(RECOMMENDED_PRODUCTS_QUERY)
     .catch((error: Error) => {
-      // Log query errors, but don't throw them so the page can still render
       console.error(error);
       return null;
     });
@@ -60,38 +147,71 @@ function loadDeferredData({context}: Route.LoaderArgs) {
 }
 
 export default function Homepage() {
-    const data = useLoaderData<typeof loader>();
-    return (
-            <div className="home">
-            <FeaturedCollection collection={data.featuredCollection} />
-            <SectionTwo />
-            <RecommendedProducts products={data.recommendedProducts} />
-            <Banner/>
-            </div>
-    );
+  const data = useLoaderData<typeof loader>();
+  const [isMobile, setIsMobile] = useState(false);
+  const [isTablet, setIsTablet] = useState(false);
+
+  useEffect(() => {
+    const checkResponsive = () => {
+      setIsMobile(window.innerWidth < 768);
+      setIsTablet(window.innerWidth >= 768 && window.innerWidth < 1024);
+    };
+    
+    checkResponsive();
+    window.addEventListener('resize', checkResponsive);
+    
+    return () => window.removeEventListener('resize', checkResponsive);
+  }, []);
+
+  return (
+    <div style={styles.home}>
+      <FeaturedCollection collection={data.featuredCollection} isMobile={isMobile} />
+      <SectionTwo />
+      <RecommendedProducts products={data.recommendedProducts} isMobile={isMobile} isTablet={isTablet} />
+      <Banner/>
+    </div>
+  );
 }
 
 function FeaturedCollection({
   collection,
+  isMobile,
 }: {
   collection: FeaturedCollectionFragment;
+  isMobile: boolean;
 }) {
   const [activeVideo, setActiveVideo] = useState(0);
   
   if (!collection) return null;
   
   const videos = [
-    "/videos/Comp.mp4",
-    "/videos/Comp2.mp4"
+    "/videos/WithCard.mp4",
+    "/videos/WithoutCard.mp4"
   ];
+
+  const homeImageStyle = {
+    ...styles.homeImage,
+    ...(isMobile && styles.homeImageMobile),
+  };
+
+  const paginationStyle = {
+    ...styles.videoPagination,
+    ...(isMobile && styles.videoPaginationMobile),
+  };
+
+  const paginationContainerStyle = {
+    ...styles.videoPaginationContainer,
+    ...(isMobile && styles.videoPaginationContainerMobile),
+  };
 
   return (
     <Link
       to={`/collections/${collection.handle}`}
-      className="home-image"
+      style={homeImageStyle}
     >
       {/* video 1 */}
       <video
+        style={styles.video}
         className={`absolute inset-0 w-full h-full object-contain transition-opacity duration-500 ${
           activeVideo === 0 ? 'opacity-100' : 'opacity-0'
         }`}
@@ -106,6 +226,7 @@ function FeaturedCollection({
 
       {/* video 2 */}
       <video
+        style={styles.video}
         className={`absolute inset-0 w-full h-full object-contain transition-opacity duration-500 ${
           activeVideo === 1 ? 'opacity-100' : 'opacity-0'
         }`}
@@ -119,42 +240,72 @@ function FeaturedCollection({
       </video>
 
       {/* pagination dots */}
-        <div className="video-pagination">
-            <div className="video-pagination-container">
-                <button
-                onClick={(e) => {
-                    e.preventDefault();
-                    setActiveVideo(0);
-                }}
-                className={`video-pagination-dot ${activeVideo === 0 ? 'active' : ''}`}
-                />
-                <button
-                onClick={(e) => {
-                    e.preventDefault();
-                    setActiveVideo(1);
-                }}
-                className={`video-pagination-dot ${activeVideo === 1 ? 'active' : ''}`}
-                />
-            </div>
+      <div style={paginationStyle}>
+        <div style={paginationContainerStyle}>
+          <button
+            onClick={(e) => {
+              e.preventDefault();
+              setActiveVideo(0);
+            }}
+            style={{
+              ...styles.videoPaginationDot,
+              ...(isMobile && styles.videoPaginationDotMobile),
+              ...(activeVideo === 0 && styles.videoPaginationDotActive),
+              ...(activeVideo === 0 && isMobile && styles.videoPaginationDotActiveMobile),
+            }}
+          />
+          <button
+            onClick={(e) => {
+              e.preventDefault();
+              setActiveVideo(1);
+            }}
+            style={{
+              ...styles.videoPaginationDot,
+              ...(isMobile && styles.videoPaginationDotMobile),
+              ...(activeVideo === 1 && styles.videoPaginationDotActive),
+              ...(activeVideo === 1 && isMobile && styles.videoPaginationDotActiveMobile),
+            }}
+          />
         </div>
+      </div>
     </Link>
   );
 }
 
 function RecommendedProducts({
   products,
+  isMobile,
+  isTablet,
 }: {
   products: Promise<RecommendedProductsQuery | null>;
+  isMobile: boolean;
+  isTablet: boolean;
 }) {
+  const productsStyle = {
+    ...styles.recommendedProducts,
+    ...(isMobile && styles.recommendedProductsMobile),
+  };
+
+  const headingStyle = {
+    ...styles.indexCategoryHeading,
+    ...(isMobile && styles.indexCategoryHeadingMobile),
+  };
+
+  const gridStyle = {
+    ...styles.recommendedProductsGrid,
+    ...(isTablet && styles.recommendedProductsGridTablet),
+    ...(isMobile && styles.recommendedProductsGridMobile),
+  };
+
   return (
-    <div className="recommended-products">
-        <div className="index-category-heading">
-            <text>Recommended Products</text>
-        </div>
+    <div style={productsStyle}>
+      <div style={headingStyle}>
+        <text>Recommended Products</text>
+      </div>
       <Suspense fallback={<div>Loading...</div>}>
         <Await resolve={products}>
           {(response) => (
-            <div className="recommended-products-grid">
+            <div style={gridStyle}>
               {response
                 ? response.products.nodes.map((product) => (
                     <ProductItem key={product.id} product={product} />
@@ -213,7 +364,7 @@ const RECOMMENDED_PRODUCTS_QUERY = `#graphql
   }
   query RecommendedProducts ($country: CountryCode, $language: LanguageCode)
     @inContext(country: $country, language: $language) {
-    products(first: 4, sortKey: UPDATED_AT, reverse: true) {
+    products(first: 10) {
       nodes {
         ...RecommendedProduct
       }

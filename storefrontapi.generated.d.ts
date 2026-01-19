@@ -1202,7 +1202,7 @@ interface GeneratedQueryTypes {
     return: FeaturedCollectionQuery;
     variables: FeaturedCollectionQueryVariables;
   };
-  '#graphql\n  fragment RecommendedProduct on Product {\n    id\n    title\n    handle\n    priceRange {\n      minVariantPrice {\n        amount\n        currencyCode\n      }\n    }\n    featuredImage {\n      id\n      url\n      altText\n      width\n      height\n    }\n  }\n  query RecommendedProducts ($country: CountryCode, $language: LanguageCode)\n    @inContext(country: $country, language: $language) {\n    products(first: 4, sortKey: UPDATED_AT, reverse: true) {\n      nodes {\n        ...RecommendedProduct\n      }\n    }\n  }\n': {
+  '#graphql\r\n  fragment RecommendedProduct on Product {\r\n    id\r\n    title\r\n    handle\r\n    priceRange {\r\n      minVariantPrice {\r\n        amount\r\n        currencyCode\r\n      }\r\n    }\r\n    featuredImage {\r\n      id\r\n      url\r\n      altText\r\n      width\r\n      height\r\n    }\r\n  }\r\n  query RecommendedProducts ($country: CountryCode, $language: LanguageCode)\r\n    @inContext(country: $country, language: $language) {\r\n    products(first: 10) {\r\n      nodes {\r\n        ...RecommendedProduct\r\n      }\r\n    }\r\n  }\r\n': {
     return: RecommendedProductsQuery;
     variables: RecommendedProductsQueryVariables;
   };

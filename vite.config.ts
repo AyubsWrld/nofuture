@@ -35,5 +35,10 @@ export default defineConfig({
   },
   server: {
     allowedHosts: ['.tryhydrogen.dev'],
+    watch: {
+      ignored: ['!**/dist/'],
+      usePolling: true,
+      interval: 500
+    }
   },
 });

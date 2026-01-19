@@ -1,0 +1,8 @@
+- [x] Intergrate newsletter logic. 
+- [x] Fix Preview Page
+    - [ ] Don't show loading screen first. 
+    - [x] Fix Newsletter bug. 
+- [ ] Make 404 Page.
+- [ ] Return Policy Page.
+- [ ] Fix orders page Center Page.
+- [ ] Responsive design. 

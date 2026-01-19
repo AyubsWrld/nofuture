@@ -47,15 +47,36 @@ function loadDeferredData({context}: Route.LoaderArgs) {
   return {};
 }
 
+// export default function Collection() {
+//   const {products} = useLoaderData<typeof loader>();
+//
+//   return (
+//     <div className="collection">
+//       <h1>Products</h1>
+//       <PaginatedResourceSection<CollectionItemFragment>
+//         connection={products}
+//         resourcesClassName="products-grid"
+//       >
+//         {({node: product, index}) => (
+//           <ProductItem
+//             key={product.id}
+//             product={product}
+//             loading={index < 8 ? 'eager' : undefined}
+//           />
+//         )}
+//       </PaginatedResourceSection>
+//     </div>
+//   );
+// }
+
 export default function Collection() {
   const {products} = useLoaderData<typeof loader>();
-
   return (
-    <div className="collection">
-      <h1>Products</h1>
+    <div className="collection px-6 py-8">
+      <div className="text-3xl font-bold mb-[24px]">Products</div>
       <PaginatedResourceSection<CollectionItemFragment>
         connection={products}
-        resourcesClassName="products-grid"
+        resourcesClassName="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
       >
         {({node: product, index}) => (
           <ProductItem

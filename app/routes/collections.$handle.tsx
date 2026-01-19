@@ -16,7 +16,7 @@ import type {ProductItemFragment} from 'storefrontapi.generated';
 /*                                   Meta                                     */
 /* -------------------------------------------------------------------------- */
 
-export const meta: Route.MetaFunction = ({data}) => {
+export const meta: Route.MetaFunction = ({data}) => {
   return [
     {
       title: data?.collection

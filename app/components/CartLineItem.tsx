@@ -13,6 +13,7 @@ type CartLine = OptimisticCartLine<CartApiQueryFragment>;
  * A single line item in the cart. It displays the product image, title, price.
  * It also provides controls to update the quantity or remove the line item.
  */
+
 export function CartLineItem({
   layout,
   line,
