@@ -1,0 +1,17 @@
+Pick -> Used to create a new type that has a subset of the parent types -> 
+
+	type Foo 
+	{
+		bar: int;
+		baz: string;
+	}
+
+	type DFoo = Pick<Foo, 'bar'> 
+
+is logically equivalent to creating the type... 
+
+
+	type DFoo 
+	{
+		bar: int;
+	}

@@ -1,0 +1,11 @@
+- [x] Fix logo loading screen 
+- [x] Fix Header Overlapping
+- [x] Newsletter Visuals.
+- [x] Front Swap Videos 
+- [x] Remove the playing in picture. 
+- [ ] Make the collections prettier. 
+- [ ] Fix Highlight. 
+- [ ] Fix the loading screen to use the other logo.
+- [ ] Google Pixel.
+- [ ] Integrate into shopify.
+- [ ] Work on Header ( Remove the extraneous links & Animation ). 

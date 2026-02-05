@@ -1,0 +1,335 @@
+import {Analytics, getShopAnalytics, useNonce} from '@shopify/hydrogen';
+import {
+  Outlet,
+  useRouteError,
+  isRouteErrorResponse,
+  type ShouldRevalidateFunction,
+  Links,
+  Meta,
+  Scripts,
+  ScrollRestoration,
+  useRouteLoaderData,
+} from 'react-router';
+import {useState, useEffect} from 'react';
+import type {Route} from './+types/root';
+import favicon from '~/assets/favicon.svg';
+import {FOOTER_QUERY, HEADER_QUERY} from '~/lib/fragments';
+import resetStyles from '~/styles/reset.css?url';
+import appStyles from '~/styles/app.css?url';
+import tailwindCss from './styles/tailwind.css?url';
+import {PageLayout} from './components/PageLayout';
+
+export type RootLoader = typeof loader;
+
+export const shouldRevalidate: ShouldRevalidateFunction = ({
+  formMethod,
+  currentUrl,
+  nextUrl,
+}) => {
+  if (formMethod && formMethod !== 'GET') return true;
+  if (currentUrl.toString() === nextUrl.toString()) return true;
+  return false;
+};
+
+export function links() {
+  return [
+    {
+      rel: 'preconnect',
+      href: 'https://cdn.shopify.com',
+    },
+    {
+      rel: 'preconnect',
+      href: 'https://shop.app',
+    },
+    {rel: 'icon', type: 'image/svg+xml', href: favicon},
+  ];
+}
+
+export async function loader(args: Route.LoaderArgs) {
+  const cookies = args.request.headers.get('Cookie') || '';
+  const hasPreviewAccess = cookies.includes('preview_access=true');
+
+  const deferredData = loadDeferredData(args);
+  const criticalData = await loadCriticalData(args);
+  const {storefront, env} = args.context;
+
+  return {
+    ...deferredData,
+    ...criticalData,
+    publicStoreDomain: env.PUBLIC_STORE_DOMAIN,
+    hasPreviewAccess,
+    shop: getShopAnalytics({
+      storefront,
+      publicStorefrontId: env.PUBLIC_STOREFRONT_ID,
+    }),
+    consent: {
+      checkoutDomain: env.PUBLIC_CHECKOUT_DOMAIN,
+      storefrontAccessToken: env.PUBLIC_STOREFRONT_API_TOKEN,
+      withPrivacyBanner: false,
+      country: args.context.storefront.i18n.country,
+      language: args.context.storefront.i18n.language,
+    },
+  };
+}
+
+async function loadCriticalData({context}: Route.LoaderArgs) {
+  const {storefront} = context;
+
+  const [header] = await Promise.all([
+    storefront.query(HEADER_QUERY, {
+      cache: storefront.CacheLong(),
+      variables: {
+        headerMenuHandle: 'main-menu', 
+      },
+    }),
+  ]);
+
+  return {header};
+}
+
+function loadDeferredData({context}: Route.LoaderArgs) {
+  const {storefront, customerAccount, cart} = context;
+
+  const footer = storefront
+    .query(FOOTER_QUERY, {
+      cache: storefront.CacheLong(),
+      variables: {
+        footerMenuHandle: 'footer',
+      },
+    })
+    .catch((error: Error) => {
+      console.error(error);
+      return null;
+    });
+  return {
+    cart: cart.get(),
+    isLoggedIn: customerAccount.isLoggedIn(),
+    footer,
+  };
+}
+
+const RenderBar = () => {
+  const bars = 8;
+  const initialDelay = 3;
+  return (
+    <div className="w-screen h-screen bg-black overflow-hidden">
+      <div className="flex w-full h-full">
+        {[...Array(bars)].map((_, i) => (
+          <div
+            key={i}
+            className="flex-1 relative"
+            style={{
+              perspective: '1000px',
+            }}
+          >
+            <div
+              className="absolute top-0 left-0 right-0 h-1/2 bg-white border-b"
+              style={{
+                animation: `slideUp 0.5s ease-in-out forwards`,
+                animationDelay: `${initialDelay + i * 0.08}s`,
+                transformOrigin: 'center top',
+              }}
+            />
+            <div
+              className="absolute bottom-0 left-0 right-0 h-1/2 bg-white border-t"
+              style={{
+                animation: `slideDown 0.5s ease-in-out forwards`,
+                animationDelay: `${initialDelay + i * 0.08}s`,
+                transformOrigin: 'center bottom',
+              }}
+            />
+          </div>
+        ))}
+      </div>
+      <style>{`
+        @keyframes slideDown {
+          from {
+            transform: scaleY(1);
+          }
+          to {
+            transform: scaleY(0);
+          }
+        }
+        @keyframes slideUp {
+          from {
+            transform: scaleY(1);
+          }
+          to {
+            transform: scaleY(0);
+          }
+        }
+      `}</style>
+    </div>
+  );
+};
+
+interface LoadingPageProps {
+  isVisible: boolean;
+}
+
+const LoadingPage: React.FC<LoadingPageProps> = ({ isVisible }) => {
+  return (
+    <div
+      className="w-screen h-screen flex items-center justify-center bg-white fixed top-0 left-0 z-50"
+      style={{
+        opacity: isVisible ? 1 : 0,
+        transition: 'opacity 0.5s ease-in-out',
+        pointerEvents: isVisible ? 'auto' : 'none',
+      }}
+    >
+      <img
+        src={'/logocolor.png'}
+        alt="Logo"
+        className="absolute z-50"
+        width={200}
+        height={200}
+        style={{
+          animation: `fadeOut 0.4s ease-in-out forwards`,
+          animationDelay: `3.1s`,
+        }}
+      />
+      <RenderBar />
+      <style>{`
+        @keyframes fadeOut {
+          from {
+            opacity: 1;
+          }
+          to {
+            opacity: 0;
+          }
+        }
+      `}</style>
+    </div>
+  );
+};
+
+export function Layout({children}: {children?: React.ReactNode}) {
+  const nonce = useNonce();
+  const [showLoading, setShowLoading] = useState(true);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setShowLoading(false);
+    }, 3600); 
+
+    return () => clearTimeout(timer);
+  }, []);
+
+  return (
+    <html lang="en">
+      <head>
+        <meta charSet="utf-8" />
+        <meta name="viewport" content="width=device-width,initial-scale=1" />
+        <link rel="stylesheet" href={resetStyles}></link>
+        <link rel="stylesheet" href={appStyles}></link>
+        <link rel="stylesheet" href={tailwindCss}></link>
+        <Meta />
+        <Links />
+        <style>{rootStyles}</style>
+      </head>
+      <body>
+        <LoadingPage isVisible={showLoading} />
+        <div className="root-container">
+          {children}
+        </div>
+        <ScrollRestoration nonce={nonce} />
+        <Scripts nonce={nonce} />
+      </body>
+    </html>
+  );
+}
+
+export default function App() {
+  const data = useRouteLoaderData<RootLoader>('root');
+
+  if (!data) {
+    return <Outlet />;
+  }
+
+  return (
+    <Analytics.Provider
+      cart={data.cart}
+      shop={data.shop}
+      consent={data.consent}
+    >
+      <PageLayout {...data}>
+        <Outlet />
+      </PageLayout>
+    </Analytics.Provider>
+  );
+}
+
+export function ErrorBoundary() {
+  const error = useRouteError();
+  let errorMessage = 'Unknown error';
+  let errorStatus = 500;
+
+  if (isRouteErrorResponse(error)) {
+    errorMessage = error?.data?.message ?? error.data;
+    errorStatus = error.status;
+  } else if (error instanceof Error) {
+    errorMessage = error.message;
+  }
+
+  return (
+    <div className="route-error">
+      <h1>Oops</h1>
+      <h2>{errorStatus}</h2>
+      {errorMessage && (
+        <fieldset>
+          <pre>{errorMessage}</pre>
+        </fieldset>
+      )}
+    </div>
+  );
+}
+
+const rootStyles = `
+  * {
+    box-sizing: border-box;
+  }
+
+  html {
+    width: 100%;
+    overflow-x: hidden;
+  }
+
+  body {
+    width: 100%;
+    max-width: 100vw;
+    overflow-x: hidden;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  .root-container {
+    width: 100%;
+    max-width: 100vw;
+    min-height: 100vh;
+    overflow-x: hidden;
+    box-sizing: border-box;
+  }
+
+  /* Prevent horizontal scroll on all breakpoints */
+  @media (max-width: 640px) {
+    body, html, .root-container {
+      max-width: 100vw;
+      overflow-x: hidden;
+    }
+  }
+
+  @media (min-width: 641px) and (max-width: 1024px) {
+    body, html, .root-container {
+      max-width: 100vw;
+      overflow-x: hidden;
+    }
+  }
+
+  @media (min-width: 1025px) {
+    body, html, .root-container {
+      max-width: 100vw;
+      overflow-x: hidden;
+    }
+  }
+`;
