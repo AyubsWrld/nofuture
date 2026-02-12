@@ -76,7 +76,7 @@ function PreviewCard({ password, setPassword, handleSubmit, error }: PreviewCard
                   name="password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  placeholder="Nofuture123"
+                  placeholder="Enter Password"
                   className="preview-input"
                 />
                 {error && <p className="preview-error">{error}</p>}
@@ -85,10 +85,10 @@ function PreviewCard({ password, setPassword, handleSubmit, error }: PreviewCard
                 Enter
               </button>
             </form>
-            <div className="preview-divider">Or</div>
-            <button type="button" className="preview-notify">
-              Notify Me
-            </button>
+            {/* <div className="preview-divider">Or</div> */}
+            {/* <button type="button" className="preview-notify"> */}
+            {/*   Notify Me */}
+            {/* </button> */}
           </div>
         </div>
         <div className="preview-row-two">

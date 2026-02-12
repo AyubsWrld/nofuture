@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const StarIcon = ({ filled }) => (
   <svg
@@ -55,7 +56,6 @@ const reviewsData = [
 
 const ImageGallerySection = ({ isMobile, theme = 'dark' }) => {
   const [selectedColor, setSelectedColor] = useState(null);
-
   const isDark = theme === 'dark';
 
   return (
@@ -350,9 +350,9 @@ const ImageGallerySection = ({ isMobile, theme = 'dark' }) => {
   );
 };
 
-const ProductDetailsSection = ({ isMobile, theme = 'dark' }) => {
+const ProductDetailsSection = ({ isMobile , theme = 'dark' }) => {
   const isDark = theme === 'dark';
-
+  const navigate = useNavigate();
   return (
     <section
       style={{
@@ -419,6 +419,7 @@ const ProductDetailsSection = ({ isMobile, theme = 'dark' }) => {
               width: isMobile ? '100%' : 'auto',
               justifyContent: isMobile ? 'space-between' : 'flex-start',
             }}
+            onClick={ () => navigate('/products/dmc-sparda-tee?Size=S')  }
           >
             <span
               style={{
@@ -429,6 +430,7 @@ const ProductDetailsSection = ({ isMobile, theme = 'dark' }) => {
                 lineHeight: isMobile ? '22.4px' : '25.2px',
                 whiteSpace: 'nowrap',
               }}
+                onClick={() => { }}
             >
               Purchase Now
             </span>

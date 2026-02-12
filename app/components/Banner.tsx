@@ -1,11 +1,27 @@
 import React, { useEffect, useRef } from "react";
 
+// const marqueeItems = [
+//   { type: "text", content: "NoFuture" },
+//   { type: "icon", content: "/vector-746.svg" },
+//   { type: "text", content: "NoFuture" },
+//   { type: "icon", content: "/vector-746.svg" },
+//   { type: "text", content: "NoFuture" },
+// ];
+
+// const marqueeItems = [
+//   { type: "icon", content: "/red_grey.png" },
+//   { type: "icon", content: "/vector-746.svg" },
+//   { type: "icon", content: "/red_grey.png" },
+//   { type: "icon", content: "/vector-746.svg" },
+//   { type: "icon", content: "/red_grey.png" },
+// ];
+
 const marqueeItems = [
-  { type: "text", content: "NoFuture" },
-  { type: "icon", content: "/vector-746.svg" },
-  { type: "text", content: "NoFuture" },
-  { type: "icon", content: "/vector-746.svg" },
-  { type: "text", content: "NoFuture" },
+  { type: "icon", content: "/red_grey.png" },
+  { type: "icon", content: "/red_grey.png" },
+  { type: "icon", content: "/red_grey.png" },
+  { type: "icon", content: "/red_grey.png" },
+  { type: "icon", content: "/red_grey.png" },
 ];
 
 export const Banner = (): JSX.Element => {
@@ -117,9 +133,11 @@ export const Banner = (): JSX.Element => {
             <div className="flex items-center justify-center [font-family:'Inter_Tight',Helvetica] font-semibold text-white text-[120px] text-center tracking-[0] leading-[180px] whitespace-nowrap flex-shrink-0">
               {item.content}
             </div>
-          ) : (
+          ) : item.content == "/vector-746.svg" ? (
             <img className="w-[107.04px] h-[107px] object-contain flex-shrink-0" alt="Star icon" src={item.content} />
-          )}
+          ) :
+            <img className="w-[480px] h-[140px] object-contain flex-shrink-0" alt="Star icon" src={item.content} />
+            }
         </React.Fragment>
       ))}
     </div>

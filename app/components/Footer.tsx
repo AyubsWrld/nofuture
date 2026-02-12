@@ -55,8 +55,8 @@ function FooterMenu({
             Nofuture
           </h2>
           <p className="brand-description-responsive">
-            Lorem Ipsum is simply dummy text of the printing and typesetting
-            industry. Lorem Ipsum has been the industry&apos;s.
+            {/* Lorem Ipsum is simply dummy text of the printing and typesetting */}
+            {/* industry. Lorem Ipsum has been the industry&apos;s. */}
           </p>
         </div>
 
@@ -99,52 +99,55 @@ function FooterMenu({
         </nav>
 
         {/* Sections */}
-        <nav className="nav-section-responsive">
-          <h3 className="nav-title-responsive">
-            Sections
-          </h3>
-          {(menu?.items || FALLBACK_FOOTER_MENU.items).slice(2, 5).map((item) => {
-            if (!item.url) return null;
-            const url =
-              item.url.includes('myshopify.com') ||
-              item.url.includes(publicStoreDomain) ||
-              item.url.includes(primaryDomainUrl)
-                ? new URL(item.url).pathname
-                : item.url;
-            const isExternal = !url.startsWith('/');
-            return isExternal ? (
-              <a
-                href={url}
-                key={item.id}
-                rel="noopener noreferrer"
-                target="_blank"
-                className="nav-link-responsive"
-              >
-                {item.title}
-              </a>
-            ) : (
-              <NavLink
-                end
-                key={item.id}
-                to={url}
-                prefetch="intent"
-                className="nav-link-responsive"
-              >
-                {item.title}
-              </NavLink>
-            );
-          })}
-        </nav>
+        {/* <nav className="nav-section-responsive"> */}
+        {/*   <h3 className="nav-title-responsive"> */}
+        {/*     Sections */}
+        {/*   </h3> */}
+        {/*   {(menu?.items || FALLBACK_FOOTER_MENU.items).slice(2, 5).map((item) => { */}
+        {/*     if (!item.url) return null; */}
+        {/*     const url = */}
+        {/*       item.url.includes('myshopify.com') || */}
+        {/*       item.url.includes(publicStoreDomain) || */}
+        {/*       item.url.includes(primaryDomainUrl) */}
+        {/*         ? new URL(item.url).pathname */}
+        {/*         : item.url; */}
+        {/*     const isExternal = !url.startsWith('/'); */}
+        {/*     return isExternal ? ( */}
+        {/*       <a */}
+        {/*         href={url} */}
+        {/*         key={item.id} */}
+        {/*         rel="noopener noreferrer" */}
+        {/*         target="_blank" */}
+        {/*         className="nav-link-responsive" */}
+        {/*       > */}
+        {/*         {item.title} */}
+        {/*       </a> */}
+        {/*     ) : ( */}
+        {/*       <NavLink */}
+        {/*         end */}
+        {/*         key={item.id} */}
+        {/*         to={url} */}
+        {/*         prefetch="intent" */}
+        {/*         className="nav-link-responsive" */}
+        {/*       > */}
+        {/*         {item.title} */}
+        {/*       </NavLink> */}
+        {/*     ); */}
+        {/*   })} */}
+        {/* </nav> */}
 
         {/* Social & QR Card */}
         <Card className="social-card-responsive">
           <CardContent className="card-content-responsive">
-            <Button className="social-button-responsive">
+            <Button 
+                    className="social-button-responsive"
+                    onClick={() => { window.open('https://www.instagram.com/nofutureproject/', '_blank')}}
+            >
               <div className="icon-wrapper-responsive">
-                <img className="icon-responsive" alt="Twitter x" src="/twitter-x.svg" />
+                <img className="icon-responsive" alt="Twitter x" src="instagram.png" />
               </div>
               <span className="button-text-responsive">
-                Follow Nofuture on X
+                Follow us on Instagram
               </span>
             </Button>
 
@@ -439,14 +442,14 @@ const footerStyles = `
   }
 
   .icon-responsive {
-    width: 10px;
-    height: 10px;
+    width: 24px;
+    height: 24px;
   }
 
   @media (min-width: 768px) {
     .icon-responsive {
-      width: 12px;
-      height: 12px;
+      width: 24px;
+      height: 24px;
     }
   }
 
